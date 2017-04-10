@@ -8,15 +8,15 @@
 
 ### 类方法
 - 构造函数
-	1. 默认为0
-	2. 可以用int初始化
-	3. 可以用char *
-	4. 可以用 string
-	5. 可以用BigNum自己
+	- 默认为0
+	- 可以用int初始化
+	- 可以用char *
+	- 可以用 string
+	- 可以用BigNum自己
 - 重载输入输出，其中输入还没重载
 - 重载赋值操作符
-	1. `BigNum = int`
-	2. `BigNum = BigNum`
+	- `BigNum = int`
+	- `BigNum = BigNum`
 - 绝对值函数
 - 右移1位函数
 	- 用于下面的快速幂，以及快速幂取余
