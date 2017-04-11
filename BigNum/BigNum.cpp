@@ -113,6 +113,60 @@ ostream & operator << (ostream & os, BigNum &bn) {
     return os;
 }
 
+// 转化为字符串
+void BigNum::toString(char *str) const {
+    int len = 0;
+    BigNum bn = (*this);
+    if (bn.neg == true) {
+        str[len++] = '-';
+    }
+    if (bn.num[bn.len - 1] / 1000) {
+        str[len++] = (bn.num[bn.len - 1] / 1000 + '0');
+    }
+    if (bn.num[bn.len - 1] % 1000 / 100) {
+        str[len++] = (bn.num[bn.len - 1] % 1000 / 100 + '0');
+    }
+    if (bn.num[bn.len - 1] % 100 / 10) {
+        str[len++] = (bn.num[bn.len - 1] % 100 / 10 + '0');
+    }
+    if (bn.num[bn.len - 1] % 10 / 1) {
+        str[len++] = (bn.num[bn.len - 1] % 10 / 1 + '0');
+    }
+    for (int i = bn.len - 2; i >= 0; --i) {
+        str[len++] = (bn.num[i] / 1000 + '0');
+        str[len++] = (bn.num[i] % 1000 / 100 + '0');
+        str[len++] = (bn.num[i] % 100 / 10 + '0');
+        str[len++] = (bn.num[i] % 10 / 1 + '0');
+    }
+    str[len++] = '\0';
+}
+
+void BigNum::toString(string &str) const {
+    str = "";
+    BigNum bn = (*this);
+    if (bn.neg == true) {
+        str += '-';
+    }
+    if (bn.num[bn.len - 1] / 1000) {
+        str += (bn.num[bn.len - 1] / 1000 + '0');
+    }
+    if (bn.num[bn.len - 1] % 1000 / 100) {
+        str += (bn.num[bn.len - 1] % 1000 / 100 + '0');
+    }
+    if (bn.num[bn.len - 1] % 100 / 10) {
+        str += (bn.num[bn.len - 1] % 100 / 10 + '0');
+    }
+    if (bn.num[bn.len - 1] % 10 / 1) {
+        str += (bn.num[bn.len - 1] % 10 / 1 + '0');
+    }
+    for (int i = bn.len - 2; i >= 0; --i) {
+        str += (bn.num[i] / 1000 + '0');
+        str += (bn.num[i] % 1000 / 100 + '0');
+        str += (bn.num[i] % 100 / 10 + '0');
+        str += (bn.num[i] % 10 / 1 + '0');
+    }
+}
+
 // overload assignment operator bn
 BigNum & BigNum::operator = (const BigNum &bn) {
     this->len = 0;

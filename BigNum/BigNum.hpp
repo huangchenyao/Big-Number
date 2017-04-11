@@ -33,7 +33,9 @@ public:
     // 重载输入输出
     friend istream & operator >> (istream &, BigNum &);
     friend ostream & operator << (ostream &, BigNum &);
-    
+    // 转化为字符串
+    void toString(char *) const;
+    void toString(string &) const;
     // 赋值操作符
     BigNum & operator = (const BigNum &);
     BigNum & operator = (const int &);
