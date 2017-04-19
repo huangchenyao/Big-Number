@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <ctime>
 using namespace std;
 
 #define MAX 2500 // 10000进制，每个int保存4位10进制数，4*2500总共10000位
@@ -33,9 +34,7 @@ public:
     // 重载输入输出
     friend istream & operator >> (istream &, BigNum &);
     friend ostream & operator << (ostream &, BigNum &);
-    // 转化为字符串
-    void toString(char *) const;
-    void toString(string &) const;
+    
     // 赋值操作符
     BigNum & operator = (const BigNum &);
     BigNum & operator = (const int &);
@@ -122,6 +121,16 @@ public:
     friend bool operator == (const int &, const BigNum &);
     friend bool operator != (const int &, const BigNum &);
     
+    // 转化为字符串
+    void toString(char *) const; // char *
+    void toString(string &) const; // string
+    
+    // Miller Rabin素性测试
+    bool isPrime(const int);
+    
+    // 生成随机数
+    bool random(const BigNum &, const BigNum &);
+
 };
 
 #endif /* BigNum_hpp */
