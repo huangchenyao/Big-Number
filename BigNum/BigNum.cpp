@@ -113,60 +113,6 @@ ostream & operator << (ostream & os, BigNum &bn) {
     return os;
 }
 
-// 转化为字符串
-void BigNum::toString(char *str) const {
-    int len = 0;
-    BigNum bn = (*this);
-    if (bn.neg == true) {
-        str[len++] = '-';
-    }
-    if (bn.num[bn.len - 1] / 1000) {
-        str[len++] = (bn.num[bn.len - 1] / 1000 + '0');
-    }
-    if (bn.num[bn.len - 1] % 1000 / 100) {
-        str[len++] = (bn.num[bn.len - 1] % 1000 / 100 + '0');
-    }
-    if (bn.num[bn.len - 1] % 100 / 10) {
-        str[len++] = (bn.num[bn.len - 1] % 100 / 10 + '0');
-    }
-    if (bn.num[bn.len - 1] % 10 / 1) {
-        str[len++] = (bn.num[bn.len - 1] % 10 / 1 + '0');
-    }
-    for (int i = bn.len - 2; i >= 0; --i) {
-        str[len++] = (bn.num[i] / 1000 + '0');
-        str[len++] = (bn.num[i] % 1000 / 100 + '0');
-        str[len++] = (bn.num[i] % 100 / 10 + '0');
-        str[len++] = (bn.num[i] % 10 / 1 + '0');
-    }
-    str[len++] = '\0';
-}
-
-void BigNum::toString(string &str) const {
-    str = "";
-    BigNum bn = (*this);
-    if (bn.neg == true) {
-        str += '-';
-    }
-    if (bn.num[bn.len - 1] / 1000) {
-        str += (bn.num[bn.len - 1] / 1000 + '0');
-    }
-    if (bn.num[bn.len - 1] % 1000 / 100) {
-        str += (bn.num[bn.len - 1] % 1000 / 100 + '0');
-    }
-    if (bn.num[bn.len - 1] % 100 / 10) {
-        str += (bn.num[bn.len - 1] % 100 / 10 + '0');
-    }
-    if (bn.num[bn.len - 1] % 10 / 1) {
-        str += (bn.num[bn.len - 1] % 10 / 1 + '0');
-    }
-    for (int i = bn.len - 2; i >= 0; --i) {
-        str += (bn.num[i] / 1000 + '0');
-        str += (bn.num[i] % 1000 / 100 + '0');
-        str += (bn.num[i] % 100 / 10 + '0');
-        str += (bn.num[i] % 10 / 1 + '0');
-    }
-}
-
 // overload assignment operator bn
 BigNum & BigNum::operator = (const BigNum &bn) {
     this->len = 0;
@@ -372,6 +318,12 @@ BigNum BigNum::operator % (const BigNum & bn) const {
     if (bn == 0) {
         cout << "除数不能为0！" << endl;
         return BigNum(0);
+    }
+    
+    if (this->abso() < bn.abso()) {
+        BigNum res(*this);
+        res.neg = this->neg ^ bn.neg;
+        return res;
     }
     
     BigNum ten(1);
@@ -686,4 +638,155 @@ bool BigNum::operator == (const int &num) const {
 // overload not equal to operator int
 bool BigNum::operator != (const int &num) const {
     return (*this) != BigNum(num);
+}
+
+
+// 转化为字符串
+void BigNum::toString(char *str) const {
+    int len = 0;
+    BigNum bn = (*this);
+    if (bn.neg == true) {
+        str[len++] = '-';
+    }
+    if (bn.num[bn.len - 1] / 1000) {
+        str[len++] = (bn.num[bn.len - 1] / 1000 + '0');
+    }
+    if (bn.num[bn.len - 1] % 1000 / 100) {
+        str[len++] = (bn.num[bn.len - 1] % 1000 / 100 + '0');
+    }
+    if (bn.num[bn.len - 1] % 100 / 10) {
+        str[len++] = (bn.num[bn.len - 1] % 100 / 10 + '0');
+    }
+    if (bn.num[bn.len - 1] % 10 / 1) {
+        str[len++] = (bn.num[bn.len - 1] % 10 / 1 + '0');
+    }
+    for (int i = bn.len - 2; i >= 0; --i) {
+        str[len++] = (bn.num[i] / 1000 + '0');
+        str[len++] = (bn.num[i] % 1000 / 100 + '0');
+        str[len++] = (bn.num[i] % 100 / 10 + '0');
+        str[len++] = (bn.num[i] % 10 / 1 + '0');
+    }
+    str[len++] = '\0';
+}
+
+void BigNum::toString(string &str) const {
+    str = "";
+    BigNum bn = (*this);
+    if (bn.neg == true) {
+        str += '-';
+    }
+    if (bn.num[bn.len - 1] / 1000) {
+        str += (bn.num[bn.len - 1] / 1000 + '0');
+    }
+    if (bn.num[bn.len - 1] % 1000 / 100) {
+        str += (bn.num[bn.len - 1] % 1000 / 100 + '0');
+    }
+    if (bn.num[bn.len - 1] % 100 / 10) {
+        str += (bn.num[bn.len - 1] % 100 / 10 + '0');
+    }
+    if (bn.num[bn.len - 1] % 10 / 1) {
+        str += (bn.num[bn.len - 1] % 10 / 1 + '0');
+    }
+    for (int i = bn.len - 2; i >= 0; --i) {
+        str += (bn.num[i] / 1000 + '0');
+        str += (bn.num[i] % 1000 / 100 + '0');
+        str += (bn.num[i] % 100 / 10 + '0');
+        str += (bn.num[i] % 10 / 1 + '0');
+    }
+}
+
+// 素性测试，参数k用于决定n是素数的概率
+bool BigNum::isPrime(const int k) {
+    // 素数，用作基底
+    int primeT[50] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211};
+    // 奇数
+    if (this->num[0] & 1) {
+        // 等于3或者5，质数
+        if ((*this) == 3 || (*this) == 5) {
+            return true;
+        } else if ((*this) % 3 == 0 || (*this) % 5 == 0) { // 3或5的倍数，合数
+            return false;
+        } else { // miller rabin判断
+            // 2^s * d
+            BigNum d = (*this) - 1;
+            BigNum s(0);
+            while (d % 2 == 0) {
+                d /= 2;
+                ++s;
+            }
+            cout << "d: " << d << ", s: " << s << endl;
+            // 循环k次
+            for (int i = 0; i < k; ++i) {
+                // 随机数a
+                BigNum a(0);
+                do {
+                    srand((int)clock());
+                    int i = rand() % 50;
+                    a = BigNum(primeT[i]);
+                } while (a > (*this) - 2 || a < 2);
+                cout << "a: "  << a << endl;
+                // 计算该序列的第一个值：x = a^d mod n
+                BigNum x = a.pow_mod(d, (*this));
+                // 如果该序列的第一个数是1或者n-1，符合上述条件，n可能是素数，转到下一次循环
+                if (x == 1 || x == (*this) - 1) {
+                    continue;
+                } else { // 遍历剩下的s-1
+                    BigNum xPre;
+                    BigNum j(1);
+                    for (; j < s; ++j) {
+                        xPre = x;
+                        // 计算下一个值 x = x^2 mod n
+                        x = x.pow_mod(2, (*this));
+                        // 如果这个值是1，但是前面的值不是n-1，n必定是合数
+                        if (x == 1 && xPre != (*this) - 1) {
+                            return false;
+                        }
+                        // 如果这个值是n-1，因此下一个值一定是1，n可能是素数，转到下一次循环
+                        if (x == (*this) - 1) {
+                            break;
+                        }
+                    }
+                    if (x != 1 && j == s) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    } else if ((*this) == 2) { // 2，质数
+        return true;
+    } else { // 偶数，合数
+        return false;
+    }
+}
+
+bool BigNum::random(const BigNum & low, const BigNum & high) {
+    srand((int)clock());
+    do {
+        // 要取得[a,b]范围内的随机整数，使用rand() % (b - a + 1) + a
+        this->len = rand() % (high.len - low.len + 1) + low.len;
+        if (this->len == high.len) {
+            for (int i = 0; i < this->len - 1; ++i) {
+                this->num[i] = rand() % 10000;
+            }
+            if (high.num[high.len - 1] >= 1000) {
+               this->num[this->len - 1] = rand() % 10000;
+            } else if (high.num[high.len - 1] >= 100) {
+                this->num[this->len - 1] = rand() % 1000;
+            } else if (high.num[high.len - 1] >= 10) {
+                this->num[this->len - 1] = rand() % 100;
+            } else {
+                this->num[this->len - 1] = rand() % 10;
+            }
+        } else {
+            for (int i = 0; i < this->len; ++i) {
+                this->num[i] = rand() % 10000;
+            }
+        }
+        // 去掉前导0
+        for (int i = this->len - 1; this->num[i] == 0; --i) {
+            --this->len;
+        }
+    } while ((*this) < low || (*this) > high);
+    return true;
 }
